@@ -1,11 +1,13 @@
+import axios from 'axios';
 import { useFormik } from 'formik';
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { useAuth } from '../context/authContext';
 //import { BrowserRouter, NavLink, Link } from 'react-router-dom';
 //import './Register.module.css'
 
 function Register() {
-    const{register}=useAuth();
+    const{register, isRegistered}=useAuth();
     const formik=useFormik({
         initialValues: {
             username: '',
@@ -14,13 +16,12 @@ function Register() {
             password2: '',
         },
         onSubmit: (values) => {
-            //console.log(values);
             register(values);
-
         },
       });    
     return (
-
+        <>
+        {isRegistered && <Redirect to='/page' />}
         <form className="app-wrapper-log" >
         Sign Up
         <div>
@@ -42,7 +43,7 @@ function Register() {
         <div>
             <input placeholder='Password'
             name="password1"
-            type="text"
+            type="password"
             onChange={formik.handleChange}
             value={formik.values.password1}
             />
@@ -50,7 +51,7 @@ function Register() {
         <div>
             <input placeholder='Confirm password'
             name="password2"
-            type="text"
+            type="password"
             onChange={formik.handleChange}
             value={formik.values.password2}
             />
@@ -61,7 +62,7 @@ function Register() {
             {/* <Link to="/login"> Sign in </Link> */}
         </div>
         </form>
-
+        </>
   );
 }
 

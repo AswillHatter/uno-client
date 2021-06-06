@@ -3,13 +3,14 @@ import './Page.css';
 import Content from './Content';
 import Header from './Header';
 import Nav from './Nav';
+import GameCreator from './GameCreator'
 
 const Page = () => {
   return (
     <div className='app-wrapper'>
       <Header />
       <Nav />
-      <Content />
+      <GameCreator />
 
     </div>
   );

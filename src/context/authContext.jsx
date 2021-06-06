@@ -33,9 +33,8 @@ export const useProvideAuth = () => {
   const isAuthenticated = Boolean(accessToken) || Boolean(refreshToken);
 
   const register = (data) => {
-    console.log(data);  
-    authorizedInstance.post(API_REGISTER_URL, data = data)
-    .then(() => {console.log("register_front"); setIsRegistered(true)})
+    authorizedInstance.post(API_REGISTER_URL, data )
+    .then(() => {setIsRegistered(true)})
 };
 
   const updateTokens = (access, refresh) => {
@@ -46,7 +45,7 @@ export const useProvideAuth = () => {
 
   const login = (data) => authorizedInstance
     .post(API_LOGIN_URL, data)
-    .then(({ access, refresh }) => updateTokens(access, refresh));
+    .then(({ access, refresh }) => {updateTokens(access, refresh)});
 
   const logout = () => {
     //history.push('/login');

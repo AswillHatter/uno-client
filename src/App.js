@@ -4,7 +4,6 @@ import './App.css';
 import Auth from './components/Auth';
 import {ProvideAuth} from "./context/authContext"
 
-import Page from './components/Page';
 
 const App = () => {
   return (
