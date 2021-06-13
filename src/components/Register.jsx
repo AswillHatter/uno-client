@@ -21,7 +21,7 @@ function Register() {
       });    
     return (
         <>
-        {isRegistered && <Redirect to='/page' />}
+        {isRegistered && <Redirect to='/login' />}
         <form className="app-wrapper-log" >
         Sign Up
         <div>

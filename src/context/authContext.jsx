@@ -16,7 +16,7 @@ import {
 
 const authorizedInstance = axios.create({
   baseURL: API_URL,
-  withCredentials: false,
+  withCredentials: true,
   headers: { 'Content-Type': 'application/json' },
 });
 
@@ -39,16 +39,16 @@ export const useProvideAuth = () => {
 
   const updateTokens = (access, refresh) => {
     window.localStorage.setItem(tokenKey, refresh);
-    setRefreshToken(refresh);
+    if (refresh) setRefreshToken(refresh);
     setAccessToken(access);
   };
 
   const login = (data) => authorizedInstance
     .post(API_LOGIN_URL, data)
-    .then(({ access, refresh }) => {updateTokens(access, refresh)});
+    .then(({ data: { access, refresh }}) => { updateTokens(access, refresh)});
 
   const logout = () => {
-    //history.push('/login');
+    // history.push('/login')
     window.localStorage.removeItem(tokenKey);
     setRefreshToken(null);
     setAccessToken(null);
@@ -57,9 +57,9 @@ export const useProvideAuth = () => {
    const refreshAccessToken = async (refresh_token) => {
     try {
       const res = await authorizedInstance.post(API_REFRESH_URL, {
-        refresh_token,
+        refresh: refresh_token,
       });
-      updateTokens(res.access);
+      updateTokens(res.data.access, refreshToken);
     } catch (error) {
       logout();
     }
@@ -67,11 +67,15 @@ export const useProvideAuth = () => {
 
   useEffect(() => {
     if (accessToken) {
+
       authorizedInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
       setApiInstanceReady(true);
     } else if (refreshToken) {
+
       refreshAccessToken(refreshToken);
     } else {
+
       delete authorizedInstance.defaults.headers.common.Authorization;
       setApiInstanceReady(false);
     }

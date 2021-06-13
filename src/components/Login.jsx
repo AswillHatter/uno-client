@@ -2,24 +2,22 @@ import React from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/authContext';
 import { useFormik } from 'formik';
-//import { BrowserRouter, NavLink, Link } from 'react-router-dom';
-//import './Auth.css'
+import { Redirect } from 'react-router';
 
 function Login() {
-    const{login}=useAuth();
+    const{login, isAuthenticated}=useAuth();
     const formik=useFormik({
         initialValues: {
             email: '',
             password: '',
         },
         onSubmit: (values) => {
-            //axios.post("http://127.0.0.1:8000/auth/token/", values);
             login(values);
         }
       });
   return (
       <form className="app-wrapper-log">
-
+        {isAuthenticated && <Redirect to="/page"/>}
         
           <div> 
             Sign In
